@@ -1,7 +1,10 @@
-import { books } from "../utils/Books";
+// import { books } from "../utils/Books";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PopularBooks = () => {
+  const books = useSelector((state) => state.books.list);
+
   return (
     <section className="my-8">
       <h2 className="text-2xl font-semibold text-center">Popular Books</h2>

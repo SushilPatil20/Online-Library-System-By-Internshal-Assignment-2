@@ -1,8 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
+
 import App from "./App.jsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./components/LandingPage.jsx";
 import HomePage from "./components/HomePage.jsx";
 import Error from "./components/Error.jsx";
@@ -26,6 +29,12 @@ const routers = [
       {
         path: "/browse-books",
         element: <BrowseBooks />,
+        children: [
+          {
+            path: "/browse-books/:category",
+            element: <BrowseBooks />,
+          },
+        ],
       },
       {
         path: "/add-book",
@@ -44,7 +53,8 @@ const appRouter = createBrowserRouter(routers);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={appRouter} />
-    {/* <App /> */}
+    <Provider store={store}>
+      <RouterProvider router={appRouter} />
+    </Provider>
   </StrictMode>
 );
