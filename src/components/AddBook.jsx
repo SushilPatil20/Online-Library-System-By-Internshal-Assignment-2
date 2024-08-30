@@ -2,8 +2,12 @@ import { categories } from "../utils/Books";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../schema";
+import { useDispatch } from "react-redux";
+import { addNewBook } from "../redux/bookSlice";
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
+  // ------------------------ This Set up is called as form Initialization. ------------------------
   const {
     control,
     handleSubmit,
@@ -13,14 +17,26 @@ const AddBook = () => {
     defaultValues: {
       title: "",
       author: "",
-      genre: "",
+      category: "",
       cover: "",
+      description: "",
+      rating: "",
       popular: false,
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // --------------------- On Submit Dispatch the action to reducer ---------------------
+
+  const onSubmit = (formData) => {
+    try {
+      dispatch(addNewBook(formData));
+      navigate("/browse-books"); // Redirect after adding a new book
+    } catch (error) {
+      console.error("Failed to add new book: ", error);
+    }
   };
 
   return (
@@ -88,7 +104,7 @@ const AddBook = () => {
               Genre
             </label>
             <Controller
-              name="genre"
+              name="category"
               control={control}
               render={({ field }) => (
                 <select
@@ -135,6 +151,54 @@ const AddBook = () => {
               <p className="text-red-500">{errors.cover.message}</p>
             )}
           </div>
+
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="title"
+            >
+              Description
+            </label>
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <textarea
+                  {...field}
+                  placeholder="Description..."
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                ></textarea>
+              )}
+            />
+            {errors.description && (
+              <p className="text-red-500">{errors.description.message}</p>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="title"
+            >
+              Rating
+            </label>
+            <Controller
+              name="rating"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="number"
+                  placeholder="Rate from 1 to 5"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              )}
+            />
+            {errors.rating && (
+              <p className="text-red-500">{errors.rating.message}</p>
+            )}
+          </div>
+
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Popularity

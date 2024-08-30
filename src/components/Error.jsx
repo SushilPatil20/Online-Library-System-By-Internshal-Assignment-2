@@ -1,6 +1,7 @@
 import { useRouteError } from "react-router-dom";
 
 const Error = () => {
+  // -------------------- Getting error object by using useRouteError --------------------
   const err = useRouteError();
   const message = err.error?.message;
   const statusCode = err.status;
@@ -15,7 +16,7 @@ const Error = () => {
         </h2>
         <p className="mt-4 text-gray-600">{message}</p>
         <a
-          href="/"
+          href="/home"
           className="inline-block mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
         >
           Go Back Home

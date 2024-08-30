@@ -5,6 +5,7 @@ import Btn from "./NavBarBtn";
 const NavigationLinks = () => {
   const [navBar, setNavBar] = useState(false);
 
+  // ------------------------ Simple toggle handler for an responsive nav bar ------------------------
   const toggleNavBar = () => {
     setNavBar(!navBar);
   };

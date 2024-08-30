@@ -5,14 +5,15 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const BrowseBooks = () => {
-  const books = useSelector((state) => state.books.list);
-  console.log(books);
+  // ---------------------------- Use of slice method below is to avoid mutating the original state directly. ----------------------------
 
+  const books = useSelector((state) => state.books.list.slice().reverse());
   const categoryFromParams = useParams().category;
   const [booksByCategory, setBooksByCategory] = useState([]);
   const [search, setSearch] = useState("");
 
-  // Filter books based on the selected category.
+  // ---------------------------- Filter books based on the selected category in the dynamic routing. ----------------------------
+
   useEffect(() => {
     if (categoryFromParams && categoryFromParams !== "All") {
       const filtered = books.filter(
@@ -25,7 +26,7 @@ const BrowseBooks = () => {
     }
   }, [categoryFromParams]);
 
-  // Filter books based on search query
+  // ---------------------------- Filter books based on search query ----------------------------
   const filteredBooks = booksByCategory.filter(
     (book) =>
       book.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -82,7 +83,7 @@ const BrowseBooks = () => {
         </section>
       </section>
 
-      {/* Display filtered books or 'not found' message */}
+      {/* ------ Display filtered books or 'not found' message */}
       {filteredBooks.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks.map((book) => (
