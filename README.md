@@ -1,7 +1,7 @@
 # React + Vite + Redux 
 
 
- --- Project Setup Guide --- 
+## Project Setup Guide 
 
 Follow these steps to set up and run the project locally.
 
